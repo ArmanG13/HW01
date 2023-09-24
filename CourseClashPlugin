@@ -13,16 +13,12 @@ import java.io.IOException;
 public class CourseClashPlugin implements PlugIn {
     
     public void run(String arg) {
-        // Task 1: Read *.crs file and determine N
-        int N = readCRSFileAndGetN("path/to/your/file.crs");
+        
+        int N = readCRSFileAndGetN(C:\Users\agasparyan\Desktop\hec-s-92.crs);
 
-        // Task 2: Create a BinaryProcessor of size N x N and fill it with white
+        
         ImageProcessor binaryProcessor = createBinaryProcessor(N);
-
-        // Task 3: Read *.stu file and color pixels in black based on coordinates
-        readStuFileAndColorPixels("path/to/your/file.stu", binaryProcessor);
-
-        // Task 4: Create ImagePlus and display
+        readStuFileAndColorPixels(C:\Users\agasparyan\Desktop\hec-s-92.stu, binaryProcessor);
         ImagePlus binaryImagePlus = new ImagePlus("Clashing Courses Image", binaryProcessor);
         binaryImagePlus.show();
     }
@@ -42,7 +38,7 @@ public class CourseClashPlugin implements PlugIn {
 
     private ImageProcessor createBinaryProcessor(int N) {
         ImageProcessor binaryProcessor = new BinaryProcessor(N, N);
-        binaryProcessor.setValue(255); // Set to white
+        binaryProcessor.setValue(255); 
         binaryProcessor.fill();
         return binaryProcessor;
     }
@@ -55,7 +51,7 @@ public class CourseClashPlugin implements PlugIn {
                 if (tokens.length >= 2) {
                     int x = Integer.parseInt(tokens[0]);
                     int y = Integer.parseInt(tokens[1]);
-                    binaryProcessor.putPixelValue(x, y, 0); // Set to black
+                    binaryProcessor.putPixelValue(x, y, 0); 
                 }
             }
         } catch (IOException | NumberFormatException e) {

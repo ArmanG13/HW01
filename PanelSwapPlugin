@@ -1,0 +1,37 @@
+import ij.ImagePlus;
+import ij.plugin.filter.PlugInFilter;
+import ij.process.ImageProcessor;
+
+public class PanelSwapPlugin implements PlugInFilter {
+
+    public int setup(String arg, ImagePlus imp) {
+        return DOES_ALL;
+    }
+
+    public void run(ImageProcessor ip) {
+        int width = ip.getWidth();
+        int height = ip.getHeight();
+        int midWidth = width / 2;
+        int midHeight = height / 2;
+
+        ImageProcessor leftPanel = ip.createProcessor(midWidth, height);
+        ImageProcessor rightPanel = ip.createProcessor(midWidth + (width % 2), height);
+        ip.setRoi(0, 0, midWidth, height);
+        leftPanel.setPixels(ip.getPixels());
+        ip.setRoi(midWidth, 0, midWidth + (width % 2), height);
+        rightPanel.setPixels(ip.getPixels());
+
+        rightPanel.flipHorizontal();
+        ip.insert(rightPanel, 0, 0);
+
+        ImageProcessor topPanel = ip.createProcessor(width, midHeight);
+        ImageProcessor bottomPanel = ip.createProcessor(width, midHeight + (height % 2));
+        ip.setRoi(0, 0, width, midHeight);
+        topPanel.setPixels(ip.getPixels());
+        ip.setRoi(0, midHeight, width, midHeight + (height % 2));
+        bottomPanel.setPixels(ip.getPixels());
+
+        bottomPanel.flipVertical();
+        ip.insert(bottomPanel, 0, 0);
+    }
+}
